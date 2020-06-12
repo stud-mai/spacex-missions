@@ -11,6 +11,7 @@
         "linebreak-style": ["error", "unix"],
         "quotes": ["error", "single"],
         "semi": ["error", "always"],
-        "indent": ["error", "tab", { "SwitchCase": 1 }]
+        "indent": ["error", "tab", { "SwitchCase": 1 }],
+        "react/prop-types": 0
     }
 }

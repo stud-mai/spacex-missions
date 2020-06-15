@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import createStore from './store';
-import App from './containers/App';
+import App from './components/App';
 
 const store = createStore();
 
@@ -18,7 +18,7 @@ const renderApp = () => {
 };
 
 if (process.env.NODE_ENV !== 'production' && (module as any).hot) {
-	(module as any).hot.accept('./containers/App', renderApp);
+	(module as any).hot.accept('./components/App', renderApp);
 }
 
 renderApp();

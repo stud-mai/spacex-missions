@@ -7,15 +7,11 @@ export const ResetStyles = createGlobalStyle`
     box-sizing: border-box;
   }
   :root {
-	  font-size: 16px;
+	  font-size: 14px;
 	  font-family: Roboto, Arial, sans-serif;
 
       @media (min-width: 768px) {
-        font-size: 18px;
-      }
-
-      @media (min-width: 1024px) {
-        font-size: 20px;
+        font-size: 16px;
       }
     }
 `;

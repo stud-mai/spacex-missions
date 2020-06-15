@@ -27,15 +27,15 @@ const TabButton = styled.button<TabButtonProps>`
 	border-bottom: 2px solid ${(props) => props.selected ? 'orange' : 'initial'};
 	color: ${(props) => props.selected ? 'orange' : 'initial'};
 
-	&:hover, &:focus, &:active {
-		border-bottom: 2px solid ${(props) => props.selected ? 'orange' : 'grey'};
+	&:hover {
+		color: orange;
 	}
 `;
 
 const Tab: React.FC<TabProps> = ({ value, className, selected, onClick, children }) => {
 	const clickHandler = useCallback(
-		() => onClick && onClick(value),
-		[value]
+		() => !selected && onClick && onClick(value),
+		[selected, value]
 	);
 	return (
 		<TabButton

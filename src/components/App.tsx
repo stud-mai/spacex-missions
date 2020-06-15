@@ -1,17 +1,18 @@
 import React, { useState, Fragment } from 'react';
 
-import ResetStyles from '../components/ResetStyles';
-import Tabs from '../components/Tabs';
-import Tab from '../components/Tab';
-import TabContent from '../components/TabContent';
-import Placeholder from '../components/Placeholder';
+import History from '../containers/History';
+import Placeholder from './Placeholder';
+import ResetStyles from './ResetStyles';
+import Tabs from './Tabs/Tabs';
+import Tab from './Tabs/Tab';
+import TabContent from './Tabs/TabContent';
 
 type TabContent = {
 	[key: string]: React.ReactNode
 }
 
 const tabContent: TabContent = {
-	history: 'History',
+	history: <History />,
 	launches: 'Launches',
 	placeholder: <Placeholder />
 };

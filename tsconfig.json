@@ -22,8 +22,10 @@
         "jsx": "react",
         "noImplicitAny": true,
         "noImplicitThis": true,
+        "noEmitOnError": true,
         "strictNullChecks": true,
         "sourceMap": true,
+        "downlevelIteration": true
     },
     "include": ["src"],
     "exclude": ["node_modules", "dist"]

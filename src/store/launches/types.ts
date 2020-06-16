@@ -1,7 +1,8 @@
 interface RocketPayload {
 	nationality: string,
 	manufacturer: string | null,
-	payload_type: string
+	payload_type: string,
+	payload_mass_kg: number | null
 }
 
 interface Rocket {
@@ -28,11 +29,6 @@ export interface GetLaunchesAction {
 	callback: () => void
 }
 
-export interface GetLaunchesAction {
-	type: typeof LauchesActionTypes.GET_LAUNCHES_DATA,
-	callback: () => void
-}
-
 interface SetLaunchesAction {
 	type: typeof LauchesActionTypes.SET_LAUNCHES_DATA,
 	launches: Launch[]
@@ -43,7 +39,8 @@ export type LaunchesActions = GetLaunchesAction | SetLaunchesAction
 interface Payload {
 	nationality: string,
 	manufacturer: string | null,
-	type: string
+	type: string,
+	weight: number | null
 }
 
 export interface LaunchItem {

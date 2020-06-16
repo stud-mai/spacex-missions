@@ -44,7 +44,7 @@ export type HistoryActions = SetHistoryAction | GetHistoryAction
 // 	A[keyof A]
 // >;
 
-type HistoryItem = {
+export type HistoryItem = {
 	id: number,
 	title: string,
 	date: string,

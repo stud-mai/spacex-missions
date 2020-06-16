@@ -1,4 +1,3 @@
-// import { WalletsActions } from './actions';
 import { HistoryActionTypes, HistoryActions, HistoryState } from './types';
 
 export const INITIAL_STATE: HistoryState = [];

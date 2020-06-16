@@ -1,40 +1,36 @@
-import React from 'react';
+import React, { memo } from 'react';
+import styled from 'styled-components';
+
 import Card from './Card/Card';
-import CardBody from './Card/CardBody';
 import CardTitle from './Card/CardTitle';
 import CardSubtitle from './Card/CardSubtitle';
 import CardContent from './Card/CardContent';
 import CardAction from './Card/CardAction';
+import { HistoryItem } from '../store/history/types';
 
-interface HistoryCardProps {
-	title: string,
-	date: string,
-	flightNumber: number | null,
-	details: string,
-	links: {
-		reddit: string | null,
-		article: string | null,
-		wikipedia: string | null
-	}
-}
+type HistoryCardProps = Omit<HistoryItem, 'id'>;
+
+const CardActionContainer = styled.div`
+	margin-top: auto;
+`;
 
 const HistoryCard: React.FC<HistoryCardProps> = ({ title, date, flightNumber, details, links }) => {
 	const localDate = new Date(date).toLocaleDateString();
 	return (
 		<Card>
-			<CardBody>
-				<CardTitle>{title}</CardTitle>
-				<CardSubtitle>{localDate}</CardSubtitle>
-				{flightNumber &&
-					<CardContent>Flight number: {flightNumber}</CardContent>
-				}
-				<CardContent>{details}</CardContent>
+			<CardTitle>{title}</CardTitle>
+			<CardSubtitle>{localDate}</CardSubtitle>
+			{flightNumber &&
+				<CardContent>Flight number: {flightNumber}</CardContent>
+			}
+			<CardContent>{details}</CardContent>
+			<CardActionContainer>
 				{Object.entries(links).map(([source, link]) => link && (
 					<CardAction key={source} href={link} target="_blank">Read {source}</CardAction>
 				))}
-			</CardBody>
+			</CardActionContainer>
 		</Card>
 	);
 };
 
-export default HistoryCard;
+export default memo(HistoryCard);

@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from 'react';
 
 import History from '../containers/History';
+import Launches from '../containers/Launches';
 import Placeholder from './Placeholder';
 import ResetStyles from './ResetStyles';
 import Tabs from './Tabs/Tabs';
@@ -13,7 +14,7 @@ type TabContent = {
 
 const tabContent: TabContent = {
 	history: <History />,
-	launches: 'Launches',
+	launches: <Launches />,
 	placeholder: <Placeholder />
 };
 

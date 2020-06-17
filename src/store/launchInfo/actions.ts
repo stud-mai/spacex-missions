@@ -22,6 +22,7 @@ export const selectLaunchInfo = (name: string, checked: boolean): LaunchInfoActi
 	checked
 });
 
-export const sendLaunchInfo = (): LaunchInfoActions => ({
-	type: LauchInfoActionTypes.SEND_LAUNCH_INFO
+export const sendLaunchInfo = (callback: () => void): LaunchInfoActions => ({
+	type: LauchInfoActionTypes.SEND_LAUNCH_INFO,
+	callback
 });

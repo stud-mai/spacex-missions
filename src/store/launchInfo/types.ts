@@ -44,8 +44,9 @@ export interface SelectLaunchInfoAction {
 	checked: boolean
 }
 
-interface SendLaunchInfoAction {
-	type: typeof LauchInfoActionTypes.SEND_LAUNCH_INFO
+export interface SendLaunchInfoAction {
+	type: typeof LauchInfoActionTypes.SEND_LAUNCH_INFO,
+	callback: () => void
 }
 
 export type LaunchInfoActions =

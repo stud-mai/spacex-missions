@@ -19,7 +19,8 @@ const LaunchInfo: React.FC<LaunchInfo> = ({ onClose }) => {
 	const dispatch = useDispatch();
 	const launchInfo = useSelector<AppState, LaunchInfoState>(launchInfoSelector);
 	const { missionName, rocketName, launchSiteName, launchSuccess, details, selectedInfoToBeSent } = launchInfo;
-	const sendLaunchInfoHandler = useCallback(() => dispatch(sendLaunchInfo()), []);
+	const sendLaunchInfoHandler = useCallback((callback: () => void) =>
+		dispatch(sendLaunchInfo(callback)), []);
 	const selectLaunchInfoHandler = useCallback((name, checked) => dispatch(selectLaunchInfo(name, checked)), []);
 
 	useEffect(() => {

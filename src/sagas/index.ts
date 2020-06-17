@@ -9,7 +9,7 @@ import * as launchInfoActions from '../store/launchInfo/actions';
 import { launchInfoSelector } from '../selectors';
 import { HistoryActionTypes, GetHistoryAction, History } from '../store/history/types';
 import { LauchesActionTypes, GetLaunchesAction, Launch } from '../store/launches/types';
-import { LauchInfoActionTypes, GetLaunchInfoAction, LaunchInfo, LaunchInfoState } from '../store/launchInfo/types';
+import { LauchInfoActionTypes, GetLaunchInfoAction, LaunchInfo, LaunchInfoState, SendLaunchInfoAction } from '../store/launchInfo/types';
 import { RocketOrbits } from '../store/filters/types';
 
 function* getHistory({ callback }: GetHistoryAction) {
@@ -54,7 +54,7 @@ function* getLaunchInfo({ launchId, onSuccess, onFail }: GetLaunchInfoAction) {
 	}
 }
 
-function* sendLaunchInfo() {
+function* sendLaunchInfo({ callback }: SendLaunchInfoAction) {
 	const launchInfo: LaunchInfoState = yield select(launchInfoSelector);
 	const dataToSent = launchInfo.selectedInfoToBeSent.reduce((acc, name) => {
 		if (name === 'video') {
@@ -71,6 +71,8 @@ function* sendLaunchInfo() {
 	}, {});
 
 	const data = yield call(API.someEndPoint, dataToSent);
+
+	callback();
 	alert('Data has been sent');
 	console.log(data);
 }

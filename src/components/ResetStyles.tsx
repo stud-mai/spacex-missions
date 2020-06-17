@@ -7,7 +7,11 @@ export const ResetStyles = createGlobalStyle`
 		box-sizing: border-box;
 	}
 
-	input, select {
+	body.modal-open {
+		overflow: hidden;
+	}
+
+	input, select, button {
 		font-family: Roboto, Arial, sans-serif;
 		font-size: 14px;
 	}

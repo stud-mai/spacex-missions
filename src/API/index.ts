@@ -1,11 +1,12 @@
 import { History } from '../store/history/types';
 import { Launch } from '../store/launches/types';
 import { RocketOrbits } from '../store/filters/types';
+import { LaunchInfo } from '../store/launchInfo/types';
 
 const baseUrl = 'https://api.spacexdata.com/v3/';
 
 interface FetchError {
-	error: Error
+	error: Error | string
 }
 
 export type PromisedResponse<T> = Promise<T | FetchError>
@@ -42,4 +43,27 @@ export const getOrbits = (): PromisedResponse<RocketOrbits[]> => {
 	return fetch(baseUrl + 'rockets' + filter)
 		.then(res => res.json())
 		.catch((error: Error) => ({ error }));
+};
+
+export const getLaunch = (id: number): PromisedResponse<LaunchInfo> => {
+	const filter = `?filter=
+		mission_name,
+		launch_date,
+		rocket/rocket_name,
+		launch_site/site_name_long,
+		launch_success,
+		details,
+		links/(
+			video_link,
+			youtube_id
+		)`;
+	return fetch(baseUrl + 'launches/' + id + filter)
+		.then(res => res.json())
+		.catch((error: Error) => ({ error }));
+};
+
+export const someEndPoint = <T>(data: T): Promise<T> => {
+	return new Promise((resolve) => {
+		setTimeout(() => resolve(data), 1000);
+	});
 };

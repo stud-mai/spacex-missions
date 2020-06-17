@@ -3,14 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import Progress from '../components/Progress';
 import HistoryCard from '../components/HistoryCard';
+import CardsContainer from '../components/CardsContainer';
+import { historySelector } from '../selectors';
 import { getHistory } from '../store/history/actions';
 import { HistoryState } from '../store/history/types';
 import { AppState } from '../store';
-import Container from '../components/CardsContainer';
 
 const History: React.FC = () => {
 	const dispatch = useDispatch();
-	const history = useSelector<AppState, HistoryState>(state => state.history);
+	const history = useSelector<AppState, HistoryState>(historySelector);
 	const [fetching, setFetching] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -23,11 +24,11 @@ const History: React.FC = () => {
 	return (
 		<Fragment>
 			<Progress open={fetching} />
-			<Container>
+			<CardsContainer>
 				{history.map(({ id, ...rest }) => (
 					<HistoryCard key={id} {...rest} />
 				))}
-			</Container>
+			</CardsContainer>
 		</Fragment>
 	);
 };

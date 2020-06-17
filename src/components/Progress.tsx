@@ -1,22 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Backdrop, { BackdropProps } from './Backdrop';
 import Placeholder from './Placeholder';
-
-interface BackdropProps {
-	open?: boolean
-}
-
-const Backdrop = styled.div<BackdropProps>`
-	position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-	background: rgb(0,0,0,0.5);
-	z-index: 9999;
-	visibility: ${(props) => props.open ? 'visible' : 'hidden'}
-`;
 
 const AnimatedPlaceholder = styled(Placeholder)`
 	max-width: 100px;

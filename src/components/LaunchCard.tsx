@@ -8,7 +8,9 @@ import CardContent from './Card/CardContent';
 import Payload from './Payload';
 import { LaunchItem } from '../store/launches/types';
 
-type LaunchCardProps = Omit<LaunchItem, 'id'>;
+type LaunchCardProps = LaunchItem & {
+	onClick: (id: number) => void
+};
 
 const PayloadTitle = styled.div`
 	font-style: italic;
@@ -21,10 +23,11 @@ const StyledCardContent = styled(CardContent)`
 	}
 `;
 
-const LaunchCard: React.FC<LaunchCardProps> = ({ name, date, payloads }) => {
+const LaunchCard: React.FC<LaunchCardProps> = ({ id, name, date, payloads, onClick }) => {
 	const localDate = new Date(date).toLocaleDateString();
+	const clickHandler = () => onClick(id);
 	return (
-		<Card>
+		<Card onClick={clickHandler}>
 			<CardTitle>Mission {name}</CardTitle>
 			<CardSubtitle>{localDate}</CardSubtitle>
 			{payloads.map(({ manufacturer, nationality, type }, id) => (

@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { all, takeLatest, call, put } from 'redux-saga/effects';
+import { all, takeLatest, call, put, select } from 'redux-saga/effects';
 
 import * as API from '../API';
 import * as historyActions from '../store/history/actions';
 import * as launchActions from '../store/launches/actions';
 import * as filtersActions from '../store/filters/actions';
+import * as launchInfoActions from '../store/launchInfo/actions';
+import { launchInfoSelector } from '../selectors';
 import { HistoryActionTypes, GetHistoryAction, History } from '../store/history/types';
 import { LauchesActionTypes, GetLaunchesAction, Launch } from '../store/launches/types';
+import { LauchInfoActionTypes, GetLaunchInfoAction, LaunchInfo, LaunchInfoState } from '../store/launchInfo/types';
 import { RocketOrbits } from '../store/filters/types';
 
 function* getHistory({ callback }: GetHistoryAction) {
@@ -39,10 +42,45 @@ function* getLaunches({ callback }: GetLaunchesAction) {
 	callback();
 }
 
+function* getLaunchInfo({ launchId, onSuccess, onFail }: GetLaunchInfoAction) {
+	const launchInfo: API.Response<LaunchInfo> = yield call(API.getLaunch, launchId);
+
+	if ('error' in launchInfo) {
+		console.error('Error:', launchInfo.error);
+		onFail();
+	} else {
+		yield put(launchInfoActions.setLaunchInfo(launchInfo));
+		onSuccess();
+	}
+}
+
+function* sendLaunchInfo() {
+	const launchInfo: LaunchInfoState = yield select(launchInfoSelector);
+	const dataToSent = launchInfo.selectedInfoToBeSent.reduce((acc, name) => {
+		if (name === 'video') {
+			const videoLink = launchInfo.videoLink;
+			return {
+				...acc,
+				[name]: videoLink ? videoLink : `https://www.youtube.com/embed/${launchInfo.youtubeId}`
+			};
+		}
+		return {
+			...acc,
+			[name]: launchInfo[name as keyof LaunchInfoState]
+		};
+	}, {});
+
+	const data = yield call(API.someEndPoint, dataToSent);
+	alert('Data has been sent');
+	console.log(data);
+}
+
 function* rootSaga() {
 	yield all([
 		takeLatest(HistoryActionTypes.GET_HISTORY_DATA, getHistory),
 		takeLatest(LauchesActionTypes.GET_LAUNCHES_DATA, getLaunches),
+		takeLatest(LauchInfoActionTypes.GET_LAUNCH_INFO, getLaunchInfo),
+		takeLatest(LauchInfoActionTypes.SEND_LAUNCH_INFO, sendLaunchInfo),
 	]);
 }
 

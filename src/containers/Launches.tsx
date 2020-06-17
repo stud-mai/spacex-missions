@@ -2,16 +2,18 @@ import React, { Fragment, useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Progress from '../components/Progress';
-import Container from '../components/CardsContainer';
+import CardsContainer from '../components/CardsContainer';
 import LaunchCard from '../components/LaunchCard';
 import FiltersContainer from '../components/Filters/FiltersContainer';
 import Filter from '../components/Filters/Filter';
 import Select from '../components/Filters/Select';
 import Input from '../components/Filters/Input';
 import Label from '../components/Filters/Label';
+import LaunchInfo from './LaunchInfo';
 
 import { getLaunches } from '../store/launches/actions';
 import { updateLaunchName, updateLaunchDate, updateLaunchOrbit } from '../store/filters/actions';
+import { getLaunchInfo } from '../store/launchInfo/actions';
 import { filteredLaunchesSelector, orbitFilterOptionsSelector } from '../selectors';
 import { LaunchesState } from '../store/launches/types';
 import { AppState } from '../store';
@@ -22,6 +24,19 @@ const Launches: React.FC = () => {
 	const launches = useSelector<AppState, LaunchesState>(filteredLaunchesSelector);
 	const orbitFilterOptions = useSelector<AppState, Map<string, string>>(orbitFilterOptionsSelector);
 	const [fetching, setFetching] = useState<boolean>(false);
+	const [showModal, setShowModal] = useState<boolean>(false);
+
+	const launchCardClickHandler = (launchId: number) => {
+		const onSuccess = () => {
+			setFetching(false);
+			setShowModal(true);
+		};
+		const onFail = () => {
+			setFetching(false);
+		};
+		setFetching(true);
+		dispatch(getLaunchInfo(launchId, onSuccess, onFail));
+	};
 
 	const debouncedSetNameFilter = useCallback(
 		debounce((name: string) => dispatch(updateLaunchName(name)), 250), []
@@ -63,11 +78,14 @@ const Launches: React.FC = () => {
 					<Select options={orbitOptions} onChange={changeOrbitFilterHandler} />
 				</Filter>
 			</FiltersContainer>
-			<Container>
-				{launches.map(({ id, ...rest }) => (
-					<LaunchCard key={id} {...rest} />
+			<CardsContainer>
+				{launches.map(launch => (
+					<LaunchCard key={launch.id} {...launch} onClick={launchCardClickHandler} />
 				))}
-			</Container>
+			</CardsContainer>
+			{showModal &&
+				<LaunchInfo onClose={() => setShowModal(false)} />
+			}
 		</Fragment>
 	);
 };

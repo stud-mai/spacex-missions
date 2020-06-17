@@ -1,5 +1,9 @@
 import { createSelector } from 'reselect';
 import { AppState } from '../store';
+import { LaunchInfoState } from '../store/launchInfo/types';
+import { HistoryState } from '../store/history/types';
+
+export const historySelector = (state: AppState): HistoryState => state.history;
 
 const launchNameFilterSelector = (state: AppState) => state.filters.launchName;
 
@@ -36,3 +40,7 @@ export const filteredLaunchesSelector = createSelector(
 		return passedByName && passedByDate && passedByOrbit;
 	})
 );
+
+export const launchInfoSelector = (state: AppState): LaunchInfoState => state.launchInfo;
+
+export const selectedInfoFieldsSelector = (state: AppState): string[] => state.launchInfo.selectedInfoToBeSent;

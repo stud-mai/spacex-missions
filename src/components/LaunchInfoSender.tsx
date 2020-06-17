@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useCallback } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import Checkbox from '../components/Checkbox';
 import Button from '../components/Button';

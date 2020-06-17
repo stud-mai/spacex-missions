@@ -75,7 +75,7 @@ const Launches: React.FC = () => {
 				</Filter>
 				<Filter>
 					<Label htmlFor="orbits-filter">Orbit:</Label>
-					<Select options={orbitOptions} onChange={changeOrbitFilterHandler} />
+					<Select id="orbits-filter" options={orbitOptions} onChange={changeOrbitFilterHandler} />
 				</Filter>
 			</FiltersContainer>
 			<CardsContainer>

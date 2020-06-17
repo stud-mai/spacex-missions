@@ -7,6 +7,7 @@ interface Option {
 }
 
 interface SelectProps {
+	id?: string,
 	options: Option[],
 	onChange: (event: React.ChangeEvent<{ value: string }>) => void
 }
@@ -21,8 +22,8 @@ const StyledSelect = styled.select`
     border-radius: 4px;
 `;
 
-const Select: React.FC<SelectProps> = ({ options, onChange }) => (
-	<StyledSelect onChange={onChange} defaultValue="hidden">
+const Select: React.FC<SelectProps> = ({ id, options, onChange }) => (
+	<StyledSelect id={id} onChange={onChange} defaultValue="hidden">
 		<option disabled hidden value="hidden">Select an option</option>
 		{options.map(({ value, name }) => (
 			<option key={value} value={value}>{name}</option>

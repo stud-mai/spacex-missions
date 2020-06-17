@@ -14,7 +14,9 @@ const ModalContent = styled.div`
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     padding: 24px 32px;
     margin: 32px;
-    max-width: 600px;
+	max-width: 600px;
+	max-height: calc(100vh - 64px);
+    overflow: auto;
 `;
 
 const Modal: React.FC<ModalProps> = ({ children, closeModal }) => {

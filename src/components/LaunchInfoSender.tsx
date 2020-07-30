@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 
 import Checkbox from '../components/Checkbox';
 import Button from '../components/Button';
@@ -6,17 +6,13 @@ import Button from '../components/Button';
 interface LaunchInfoSenderProps {
 	videoAvailable: boolean,
 	checkedFields: string[],
-	onSelect: (name: string, checked: boolean) => void,
-	onSend: (callback: () => void) => void
+	buttonDisabled: boolean,
+	onSelect: (args: { name: string, checked: boolean }) => void,
+	onSend: () => void
 }
 
-const LaunchInfoSender: React.FC<LaunchInfoSenderProps> = ({ videoAvailable, checkedFields, onSelect, onSend }) => {
-	const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
-	const sendHandler = () => {
-		setButtonDisabled(true);
-		onSend(() => setButtonDisabled(false));
-	};
-
+const LaunchInfoSender: React.FC<LaunchInfoSenderProps> = (props) => {
+	const { videoAvailable, checkedFields, buttonDisabled, onSelect, onSend } = props;
 	return (
 		<Fragment>
 			Select what information to be sent:
@@ -46,7 +42,7 @@ const LaunchInfoSender: React.FC<LaunchInfoSenderProps> = ({ videoAvailable, che
 					onChange={onSelect}
 				/>
 			}
-			<Button onClick={sendHandler} disabled={buttonDisabled || !checkedFields.length}>Send</Button>
+			<Button onClick={onSend} disabled={buttonDisabled || !checkedFields.length}>Send</Button>
 		</Fragment>
 	);
 };

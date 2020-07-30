@@ -1,25 +1,12 @@
-import { History } from '../store/history/types';
-import { Launch } from '../store/launches/types';
-import { RocketOrbits } from '../store/filters/types';
-import { LaunchInfo } from '../store/launchInfo/types';
+import { History, Launch, RocketOrbits, LaunchInfo } from './types';
 
 const baseUrl = 'https://api.spacexdata.com/v3/';
 
-interface FetchError {
-	error: Error | string
-}
-
-export type PromisedResponse<T> = Promise<T | FetchError>
-
-export type Response<T> = T | FetchError;
-
-export const getHistory = (): PromisedResponse<History[]> => {
-	return fetch(baseUrl + 'history')
-		.then(res => res.json())
-		.catch((error: Error) => ({ error }));
+export const getHistory = (): Promise<History[]> => {
+	return fetch(baseUrl + 'history').then(res => res.json());
 };
 
-export const getLauches = (): PromisedResponse<Launch[]> => {
+export const getLauches = (): Promise<Launch[]> => {
 	const filter = `?filter=
 		flight_number,
 		mission_name,
@@ -33,19 +20,15 @@ export const getLauches = (): PromisedResponse<Launch[]> => {
 				payload_mass_kg
 			)
 		)`;
-	return fetch(baseUrl + 'launches' + filter)
-		.then(res => res.json())
-		.catch((error: Error) => ({ error }));
+	return fetch(baseUrl + 'launches' + filter).then(res => res.json());
 };
 
-export const getOrbits = (): PromisedResponse<RocketOrbits[]> => {
+export const getOrbits = (): Promise<RocketOrbits[]> => {
 	const filter = '?filter=payload_weights,rocket_id';
-	return fetch(baseUrl + 'rockets' + filter)
-		.then(res => res.json())
-		.catch((error: Error) => ({ error }));
+	return fetch(baseUrl + 'rockets' + filter).then(res => res.json());
 };
 
-export const getLaunch = (id: number): PromisedResponse<LaunchInfo> => {
+export const getLaunch = (id: number): Promise<LaunchInfo> => {
 	const filter = `?filter=
 		mission_name,
 		launch_date,

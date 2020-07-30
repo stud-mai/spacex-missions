@@ -9,6 +9,7 @@ interface Option {
 interface SelectProps {
 	id?: string,
 	options: Option[],
+	value?: string,
 	onChange: (event: React.ChangeEvent<{ value: string }>) => void
 }
 
@@ -22,11 +23,11 @@ const StyledSelect = styled.select`
     border-radius: 4px;
 `;
 
-const Select: React.FC<SelectProps> = ({ id, options, onChange }) => (
-	<StyledSelect id={id} onChange={onChange} defaultValue="hidden">
+const Select: React.FC<SelectProps> = ({ id, options, value = 'hidden', onChange }) => (
+	<StyledSelect id={id} onChange={onChange} defaultValue={value}>
 		<option disabled hidden value="hidden">Select an option</option>
-		{options.map(({ value, name }) => (
-			<option key={value} value={value}>{name}</option>
+		{options.map(({ value: optionValue, name }) => (
+			<option key={optionValue} value={optionValue}>{name}</option>
 		))}
 	</StyledSelect>
 );

@@ -7,7 +7,7 @@ interface CheckboxProps {
 	name: string,
 	label?: string,
 	checked: boolean,
-	onChange: (name: string, checked: boolean) => void
+	onChange: (args: { name: string, checked: boolean }) => void
 }
 
 const Wrapper = styled.div`
@@ -25,7 +25,7 @@ const StyledInput = styled(Input)`
 const Checkbox: React.FC<CheckboxProps> = ({ name, label, checked, onChange }) => {
 	const changeHandler = (event: React.ChangeEvent<{ checked: boolean, name: string }>) => {
 		const { name, checked } = event.target;
-		onChange(name, checked);
+		onChange({ name, checked });
 	};
 	return (
 		<Wrapper>

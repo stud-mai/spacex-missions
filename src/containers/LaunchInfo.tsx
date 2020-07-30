@@ -1,36 +1,36 @@
-import React, { useEffect, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useStore } from 'effector-react';
 
 import Modal from '../components/Modal';
 import CardContent from '../components/Card/CardContent';
 import CardTitle from '../components/Card/CardTitle';
 import Payload from '../components/Payload';
 import LaunchInfoSender from '../components/LaunchInfoSender';
-import { launchInfoSelector } from '../selectors/index';
-import { unsetLaunchInfo, sendLaunchInfo, selectLaunchInfo } from '../store/launchInfo/actions';
-import { LaunchInfoState } from '../store/launchInfo/types';
-import { AppState } from '../store';
+
+import {
+	resetLaunchInfo,
+	selectLaunchInfo,
+	sendLaunchInfo,
+	sendLaunchDataFx
+} from '../models/launchInfo/events';
+import { $launch } from '../models/launchInfo/store';
 
 interface LaunchInfo {
 	onClose: () => void
 }
 
-const LaunchInfo: React.FC<LaunchInfo> = ({ onClose }) => {
-	const dispatch = useDispatch();
-	const launchInfo = useSelector<AppState, LaunchInfoState>(launchInfoSelector);
-	const { missionName, rocketName, launchSiteName, launchSuccess, details, selectedInfoToBeSent } = launchInfo;
-	const sendLaunchInfoHandler = useCallback((callback: () => void) =>
-		dispatch(sendLaunchInfo(callback)), []);
-	const selectLaunchInfoHandler = useCallback((name, checked) => dispatch(selectLaunchInfo(name, checked)), []);
+const onCloseModal = () => resetLaunchInfo();
+const onSendInfo = () => sendLaunchInfo();
 
-	useEffect(() => {
-		return () => {
-			dispatch(unsetLaunchInfo());
-		};
-	}, []);
+const LaunchInfo: React.FC = () => {
+	const { launchInfo, hideLaunchInfo, selectedLaunchInfo } = useStore($launch);
+	const sendingData = useStore(sendLaunchDataFx.pending);
+	const { missionName, rocketName, launchSiteName, launchSuccess, details } = launchInfo;
+
+	if (hideLaunchInfo) return null;
 
 	return (
-		<Modal closeModal={onClose}>
+		<Modal closeModal={onCloseModal}>
 			<CardTitle>{missionName}</CardTitle>
 			<Payload title="Rocket Name" text={rocketName} />
 			<Payload title="Launch Site Name" text={launchSiteName} />
@@ -46,10 +46,11 @@ const LaunchInfo: React.FC<LaunchInfo> = ({ onClose }) => {
 			</CardContent>
 			<CardContent>
 				<LaunchInfoSender
-					checkedFields={selectedInfoToBeSent}
+					checkedFields={selectedLaunchInfo}
 					videoAvailable={Boolean(launchInfo.youtubeId || launchInfo.videoLink)}
-					onSelect={selectLaunchInfoHandler}
-					onSend={sendLaunchInfoHandler}
+					buttonDisabled={sendingData}
+					onSelect={selectLaunchInfo}
+					onSend={onSendInfo}
 				/>
 			</CardContent>
 		</Modal>
